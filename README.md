@@ -19,4 +19,7 @@ It is part of **Phase 1** of an internship project, focusing on backend setup, d
 - **Jest + Supertest** (testing framework, planned)
 
 ---
+## 📂 Project Structure
+ai-emergency-system/ ├── config/          # Database configuration ├── controllers/     # Business logic ├── models/          # Sequelize models ├── routes/          # API routes ├── services/        # Helper services ├── tests/           # Automated tests ├── index.js         # Entry point └── README.md        # Project documentation
+
 
