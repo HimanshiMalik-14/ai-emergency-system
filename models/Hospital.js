@@ -1,10 +1,10 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const Hospital = sequelize.define("Hospital", {
+const Hospital = sequelize.define('Hospital', {
   name: DataTypes.STRING,
-  location: DataTypes.STRING,
   capacity: DataTypes.INTEGER,
+  location: DataTypes.STRING
 });
 
 module.exports = Hospital;
