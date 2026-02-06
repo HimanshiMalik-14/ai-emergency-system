@@ -1,13 +1,22 @@
+// index.js
 require('dotenv').config();
 
 console.log("Starting server...");
 const express = require("express");
 const app = express();
-const routes = require("./routes");   
-const sequelize = require("./config/database"); 
+const sequelize = require("./config/database");
+const alertRoutes = require('./routes/alertRoutes');
+
+// Import routes
+const predictRoutes = require("./routes/predict");
+const hotspotRoutes = require("./routes/hotspotRoutes"); // <-- add this
 
 app.use(express.json());
-app.use("/", routes);
+
+// Mount routes under /api
+app.use("/api", predictRoutes);
+app.use("/api", hotspotRoutes); // <-- mount hotspot routes
+app.use('/api', alertRoutes);
 
 // Test DB connection
 sequelize.authenticate()
@@ -17,7 +26,8 @@ sequelize.authenticate()
 // Sync DB and start server
 sequelize.sync()
   .then(() => {
-    console.log("Database synced");
-    app.listen(3000, () => console.log("Server running on port 3000"));
+    console.log("✅ Database synced");
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   })
   .catch(err => console.error("❌ Error syncing database:", err));

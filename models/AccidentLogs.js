@@ -1,10 +1,26 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+// models/AccidentLogs.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const AccidentLog = sequelize.define("AccidentLog", {
-  timestamp: DataTypes.DATE,
-  location: DataTypes.STRING,
-  severity: DataTypes.INTEGER,
+const AccidentLogs = sequelize.define('AccidentLogs', {
+  timestamp: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  location: {
+    type: DataTypes.STRING,
+  },
+  severity: {
+    type: DataTypes.INTEGER,
+  },
+  latitude: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  longitude: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  }
 });
 
-module.exports = AccidentLog;
+module.exports = AccidentLogs;
