@@ -1,7 +1,7 @@
 require('dotenv').config();
-const sequelize = require('./config/database');
-const Hospital = require('./models/Hospital');
-const Ambulance = require('./models/Ambulance');
+const sequelize = require('../config/database');
+const Hospital = require('../models/Hospital');
+const Ambulance = require('../models/Ambulance');
 
 async function seed() {
   try {

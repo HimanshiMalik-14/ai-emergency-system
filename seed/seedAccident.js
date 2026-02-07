@@ -1,6 +1,6 @@
 // seedAccidents.js
-const sequelize = require('./config/database');
-const AccidentLogs = require('./models/AccidentLogs');
+const sequelize = require('../config/database');
+const AccidentLogs = require('../models/AccidentLogs');
 
 async function seedAccident() {
   try {
