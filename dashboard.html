@@ -1,25 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Accident Hotspots</title>
+  <title>Accident Hotspots Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #loading { font-size: 16px; color: #555; }
+    #error { color: red; font-weight: bold; }
+    canvas { max-width: 600px; }
+  </style>
 </head>
 <body>
   <h2>Accident Hotspots</h2>
+  <div id="loading">Loading data...</div>
+  <div id="error"></div>
   <canvas id="hotspotChart"></canvas>
+
   <script>
-    const ctx = document.getElementById('hotspotChart');
-    const hotspotChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Ghaziabad', 'Delhi'],
-        datasets: [{
-          label: 'Accidents',
-          data: [12, 8],
-          backgroundColor: ['#ff6384', '#36a2eb']
-        }]
+    async function loadHotspots() {
+      try {
+        const response = await fetch('/api/hotspots');
+        if (!response.ok) {
+          throw new Error("Failed to fetch hotspots");
+        }
+        const result = await response.json();
+
+        // Hide loading message
+        document.getElementById('loading').style.display = 'none';
+
+        // Extract labels and data
+        const labels = result.data.map(h => h.location);
+        const data = result.data.map(h => h.accidents);
+
+        // Render chart
+        const ctx = document.getElementById('hotspotChart');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Accidents',
+              data: data,
+              backgroundColor: '#36a2eb'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Accident Hotspots (Phase 3)'
+              },
+              tooltip: {
+                callbacks: {
+                  label: (context) => `Accidents: ${context.raw}`
+                }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').innerText = "Error loading hotspots. Please try again later.";
+        console.error("Dashboard error:", err);
       }
-    });
+    }
+
+    loadHotspots();
   </script>
 </body>
 </html>
